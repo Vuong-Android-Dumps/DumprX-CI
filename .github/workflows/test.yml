@@ -8,17 +8,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Maximize build space (~64GB)
+      - name: Minimal cleanup for ~64GB free
         uses: easimon/maximize-build-space@master
         with:
-          root-reserve-mb: 1024      # leave 1GB on root
-          temp-reserve-mb: 100       # leave 100MB in /tmp
-          swap-size-mb: 1024         # set swap to 1GB
-          remove-dotnet: true        # frees ~20GB
-          remove-android: true       # frees ~10GB
-          remove-haskell: true       # frees ~4GB
-          remove-codeql: true        # frees ~6GB
-          remove-docker-images: true # frees ~16GB
+          root-reserve-mb: 1024        # keep 1GB on /
+          temp-reserve-mb: 100         # keep 100MB in /tmp
+          swap-size-mb: 1024           # small swap file (1GB)
+          remove-dotnet: true          # frees ~20GB
+          remove-android: false        # keep Android SDK
+          remove-haskell: false        # keep Haskell
+          remove-codeql: false         # keep CodeQL
+          remove-docker-images: false  # keep Docker images
 
       - name: Show free space
         run: df -h
@@ -26,5 +26,4 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build
-        run: |
-          echo "Run your build here"
+        run: echo "Run your build here"
