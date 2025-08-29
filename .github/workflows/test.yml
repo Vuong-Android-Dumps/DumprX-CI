@@ -1,4 +1,4 @@
-name: CI Build Optimized (New Method)
+name: CI Build Optimized (Auto Detect Node.js)
 
 on:
   push:
@@ -22,9 +22,17 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Install dependencies
-      working-directory: frontend
+    - name: Install dependencies (auto detect package.json)
       run: |
+        PACKAGE_DIR=$(find . -name package.json -exec dirname {} \; | head -n 1)
+        if [ -z "$PACKAGE_DIR" ]; then
+          echo "Error: package.json not found!"
+          exit 1
+        fi
+
+        echo "Using package.json in $PACKAGE_DIR"
+        cd "$PACKAGE_DIR"
+
         if [ -f package-lock.json ]; then
           echo "Using npm ci with existing package-lock.json"
           npm ci
@@ -32,12 +40,14 @@ jobs:
           echo "No lockfile found, running npm install"
           npm install
         fi
+
         npm cache clean --force
 
     - name: Build project
       run: |
+        PACKAGE_DIR=$(find . -name package.json -exec dirname {} \; | head -n 1)
+        cd "$PACKAGE_DIR"
         npm run build
-        # Remove unnecessary files to save space
         rm -rf node_modules/.cache
         rm -rf dist/temp
 
@@ -54,7 +64,8 @@ jobs:
 
     - name: Clean up workspace
       run: |
-        echo "Removing temporary files..."
+        PACKAGE_DIR=$(find . -name package.json -exec dirname {} \; | head -n 1)
+        cd "$PACKAGE_DIR"
         rm -rf dist/temp
         rm -rf logs/temp
         df -h
