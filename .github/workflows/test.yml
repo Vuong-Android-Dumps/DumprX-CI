@@ -8,11 +8,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup GitHub CLI
-        uses: cli/cli@v3
-        with:
-          version: latest
-
       - name: Authenticate gh CLI
         run: echo "${{ secrets.GIT_TOKEN }}" | gh auth login --with-token
 
