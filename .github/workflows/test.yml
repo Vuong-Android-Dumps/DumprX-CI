@@ -8,20 +8,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Light cleanup (~1GB)
+      - name: Maximize build space (~64GB)
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 1024      # leave 1GB on root
+          temp-reserve-mb: 100       # leave 100MB in /tmp
+          swap-size-mb: 1024         # set swap to 1GB
+          remove-dotnet: true        # frees ~20GB
+          remove-android: true       # frees ~10GB
+          remove-haskell: true       # frees ~4GB
+          remove-codeql: true        # frees ~6GB
+          remove-docker-images: true # frees ~16GB
+
+      - name: Show free space
+        run: df -h
+
+      - uses: actions/checkout@v4
+
+      - name: Build
         run: |
-          echo "Before cleanup:"
-          df -h
-
-          # Clean apt cache
-          sudo apt-get clean
-          sudo rm -rf /var/lib/apt/lists/*
-
-          # Remove temp files
-          sudo rm -rf /tmp/*
-
-          # Prune unused Docker data (usually a few hundred MB to 1GB)
-          docker system prune -af || true
-
-          echo "After cleanup:"
-          df -h
+          echo "Run your build here"
