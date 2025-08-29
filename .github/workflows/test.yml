@@ -1,29 +1,59 @@
-name: CI
+name: Workflow with 128GB Space
 
 on:
   push:
-  pull_request:
+    branches:
+      - main
 
 jobs:
-  build:
+  big-disk-job:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Minimal cleanup for ~64GB free
-        uses: easimon/maximize-build-space@master
-        with:
-          root-reserve-mb: 1024        # keep 1GB on /
-          temp-reserve-mb: 100         # keep 100MB in /tmp
-          swap-size-mb: 1024           # small swap file (1GB)
-          remove-dotnet: true          # frees ~20GB
-          remove-android: false        # keep Android SDK
-          remove-haskell: false        # keep Haskell
-          remove-codeql: false         # keep CodeQL
-          remove-docker-images: false  # keep Docker images
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Show free space
-        run: df -h
+    # -------------------------------
+    # Step 1: Clean up runner space
+    # -------------------------------
+    - name: Clean apt cache
+      run: sudo apt-get clean
 
-      - uses: actions/checkout@v4
+    - name: Remove unused packages
+      run: sudo apt-get autoremove -y
 
-      - name: Build
-        run: echo "Run your build here"
+    - name: Remove old Docker containers/images
+      run: |
+        docker rm -f $(docker ps -aq) || true
+        docker rmi -f $(docker images -aq) || true
+        docker system prune -af
+        docker volume prune -f
+
+    - name: Clean Git
+      run: git clean -fdx
+
+    - name: Check free disk space
+      run: df -h
+
+    # -------------------------------
+    # Step 2: Mount external 128GB storage
+    # -------------------------------
+    - name: Install NFS client
+      run: sudo apt-get install -y nfs-common
+
+    - name: Mount NFS volume
+      run: |
+        sudo mkdir -p /mnt/bigdisk
+        sudo mount -t nfs4 <NFS_SERVER>:/exported/path /mnt/bigdisk
+
+    - name: Verify mount
+      run: df -h /mnt/bigdisk
+
+    # -------------------------------
+    # Step 3: Run your commands
+    # -------------------------------
+    - name: Run commands on big disk
+      run: |
+        echo "Creating test file..."
+        fallocate -l 10G /mnt/bigdisk/testfile.bin
+        ls -lh /mnt/bigdisk
