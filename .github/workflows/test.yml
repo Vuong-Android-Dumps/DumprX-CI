@@ -1,59 +1,42 @@
-name: Workflow with 128GB Space
-
+name: Cleanup GitHub Actions Storage
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 0 * * 0'  # Every Sunday at midnight
+  workflow_dispatch:       # Allows manual triggering
 
 jobs:
-  big-disk-job:
+  cleanup:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-    # -------------------------------
-    # Step 1: Clean up runner space
-    # -------------------------------
-    - name: Clean apt cache
-      run: sudo apt-get clean
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq gh
 
-    - name: Remove unused packages
-      run: sudo apt-get autoremove -y
+      - name: Authenticate GitHub CLI
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+        run: |
+          echo $GIT_TOKEN | gh auth login --with-token
 
-    - name: Remove old Docker containers/images
-      run: |
-        docker rm -f $(docker ps -aq) || true
-        docker rmi -f $(docker images -aq) || true
-        docker system prune -af
-        docker volume prune -f
+      - name: Delete old artifacts (older than 30 days)
+        run: |
+          cutoff=$(date -d '30 days ago' --iso-8601=seconds)
+          gh run list --limit 100 --json databaseId,createdAt | \
+          jq -r ".[] | select(.createdAt < \"$cutoff\") | .databaseId" | \
+          xargs -n1 -r gh run delete --confirm
 
-    - name: Clean Git
-      run: git clean -fdx
+      - name: Delete old caches
+        run: |
+          caches=$(gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/actions/caches | jq -r '.actions_caches[].id')
+          for id in $caches; do
+            gh api -X DELETE -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/actions/caches/$id
+          done
 
-    - name: Check free disk space
-      run: df -h
-
-    # -------------------------------
-    # Step 2: Mount external 128GB storage
-    # -------------------------------
-    - name: Install NFS client
-      run: sudo apt-get install -y nfs-common
-
-    - name: Mount NFS volume
-      run: |
-        sudo mkdir -p /mnt/bigdisk
-        sudo mount -t nfs4 192.168.1.100:/exported/path /mnt/bigdisk
-
-    - name: Verify mount
-      run: df -h /mnt/bigdisk
-
-    # -------------------------------
-    # Step 3: Run your commands
-    # -------------------------------
-    - name: Run commands on big disk
-      run: |
-        echo "Creating test file..."
-        fallocate -l 10G /mnt/bigdisk/testfile.bin
-        ls -lh /mnt/bigdisk
+      - name: Report storage usage
+        run: |
+          echo "Checking GitHub Actions storage usage..."
+          gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/actions/artifacts
