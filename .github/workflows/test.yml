@@ -1,4 +1,4 @@
-name: CI Build Optimized
+name: CI Build Optimized (New Method)
 
 on:
   push:
@@ -17,14 +17,20 @@ jobs:
     - name: Check disk space before build
       run: df -h
 
-    - name: Set up Node.js (example, adapt to your language)
+    - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '20'
 
-    - name: Install dependencies
+    - name: Install dependencies (auto handle lockfile)
       run: |
-        npm install
+        if [ -f package-lock.json ]; then
+          echo "Using npm ci with existing package-lock.json"
+          npm ci
+        else
+          echo "No lockfile found, running npm install"
+          npm install
+        fi
         npm cache clean --force
 
     - name: Build project
