@@ -1,0 +1,46 @@
+name: Cleanup GitHub Actions Storage
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup GitHub CLI
+        uses: cli/cli@v3
+        with:
+          version: latest
+
+      - name: Authenticate gh CLI
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+
+      # 🔹 Delete all artifacts
+      - name: Delete old artifacts
+        run: |
+          echo "Fetching artifacts..."
+          gh api repos/${{ github.repository }}/actions/artifacts \
+            --paginate -q '.artifacts[].id' | \
+          xargs -n1 -I {} gh api -X DELETE repos/${{ github.repository }}/actions/artifacts/{}
+
+      # 🔹 Delete all caches
+      - name: Delete all caches
+        run: |
+          echo "Fetching caches..."
+          gh cache list --limit 100 | cut -f1 | \
+          xargs -n1 gh cache delete || true
+
+      # 🔹 Free system disk space
+      - name: Free disk space on runner
+        run: |
+          echo "Cleaning up Docker and system packages..."
+          sudo docker system prune -af || true
+          sudo rm -rf /usr/local/lib/android || true
+          sudo rm -rf /opt/ghc || true
+          sudo rm -rf /usr/share/dotnet || true
+          sudo rm -rf /opt/hostedtoolcache || true
+          sudo apt-get clean || true
+
+      - name: Done
+        run: echo "✅ Cleanup complete!"
