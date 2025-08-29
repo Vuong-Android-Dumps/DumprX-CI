@@ -8,24 +8,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@master
-        with:
-          # Set to true if you want to remove Android SDK
-          remove-android: true
-          # Remove dotnet SDKs
-          remove-dotnet: true
-          # Remove Haskell (ghc)
-          remove-haskell: true
-          # Remove preinstalled toolcache (Go, Ruby, Python, etc.)
-          remove-codeql: true
-          remove-docker-images: true
-
-      - name: Show free space
-        run: df -h
-
-      - uses: actions/checkout@v4
-
-      - name: Build
+      - name: Light cleanup (~1GB)
         run: |
-          echo "Run your build here"
+          echo "Before cleanup:"
+          df -h
+
+          # Clean apt cache
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
+
+          # Remove temp files
+          sudo rm -rf /tmp/*
+
+          # Prune unused Docker data (usually a few hundred MB to 1GB)
+          docker system prune -af || true
+
+          echo "After cleanup:"
+          df -h
