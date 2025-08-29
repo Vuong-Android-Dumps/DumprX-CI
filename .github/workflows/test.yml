@@ -9,7 +9,9 @@ jobs:
 
     steps:
       - name: Authenticate gh CLI
-        run: echo "${{ secrets.GIT_TOKEN }}" | gh auth login --with-token
+        run: |
+          df -h
+          echo "${{ secrets.GIT_TOKEN }}" | gh auth login --with-token
 
       # 🔹 Delete all artifacts
       - name: Delete old artifacts
@@ -36,6 +38,7 @@ jobs:
           sudo rm -rf /usr/share/dotnet || true
           sudo rm -rf /opt/hostedtoolcache || true
           sudo apt-get clean || true
+          df -h
 
       - name: Done
         run: echo "✅ Cleanup complete!"
