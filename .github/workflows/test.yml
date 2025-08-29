@@ -22,7 +22,8 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Install dependencies (auto handle lockfile)
+    - name: Install dependencies
+      working-directory: frontend
       run: |
         if [ -f package-lock.json ]; then
           echo "Using npm ci with existing package-lock.json"
