@@ -44,7 +44,7 @@ jobs:
     - name: Mount NFS volume
       run: |
         sudo mkdir -p /mnt/bigdisk
-        sudo mount -t nfs4 <NFS_SERVER>:/exported/path /mnt/bigdisk
+        sudo mount -t nfs4 192.168.1.100:/exported/path /mnt/bigdisk
 
     - name: Verify mount
       run: df -h /mnt/bigdisk
