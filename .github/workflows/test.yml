@@ -1,42 +1,54 @@
-name: Cleanup GitHub Actions Storage
+name: CI Build Optimized
+
 on:
-  schedule:
-    - cron: '0 0 * * 0'  # Every Sunday at midnight
-  workflow_dispatch:       # Allows manual triggering
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
-  cleanup:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq gh
+    - name: Check disk space before build
+      run: df -h
 
-      - name: Authenticate GitHub CLI
-        env:
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
-        run: |
-          echo $GIT_TOKEN | gh auth login --with-token
+    - name: Set up Node.js (example, adapt to your language)
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
 
-      - name: Delete old artifacts (older than 30 days)
-        run: |
-          cutoff=$(date -d '30 days ago' --iso-8601=seconds)
-          gh run list --limit 100 --json databaseId,createdAt | \
-          jq -r ".[] | select(.createdAt < \"$cutoff\") | .databaseId" | \
-          xargs -n1 -r gh run delete --confirm
+    - name: Install dependencies
+      run: |
+        npm ci
+        # Optional: clean old caches to save space
+        npm cache clean --force
 
-      - name: Delete old caches
-        run: |
-          caches=$(gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/actions/caches | jq -r '.actions_caches[].id')
-          for id in $caches; do
-            gh api -X DELETE -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/actions/caches/$id
-          done
+    - name: Build project
+      run: |
+        npm run build
+        # Remove unnecessary files to save space
+        rm -rf node_modules/.cache
+        rm -rf dist/temp
 
-      - name: Report storage usage
-        run: |
-          echo "Checking GitHub Actions storage usage..."
-          gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/actions/artifacts
+    - name: Check disk space after build
+      run: df -h
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: |
+          dist/
+          logs/
+
+    - name: Clean up workspace
+      run: |
+        echo "Removing temporary files..."
+        rm -rf dist/temp
+        rm -rf logs/temp
+        df -h
