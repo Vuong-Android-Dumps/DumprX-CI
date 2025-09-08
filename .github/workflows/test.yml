@@ -1,57 +1,27 @@
-name: CI with Disk Cleanup
+name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Checkout code
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Check initial disk space
-      - name: Check initial disk space
-        run: df -h
-
-      # Install dependencies (example for Node.js)
-      - name: Install dependencies
-        run: npm install
-
-      # Build step (replace with your actual build)
-      - name: Build project
-        run: npm run build
-
-      # Run tests
-      - name: Run tests
-        run: npm test
-
-      # Clean up node_modules and build artifacts
-      - name: Cleanup workspace
-        run: |
-          echo "Removing node_modules and build directories..."
-          rm -rf node_modules
-          rm -rf build
-          rm -rf /tmp/*
-
-      # Clean up Docker images if used
-      - name: Clean Docker
-        if: success()
-        run: |
-          docker image prune -af || true
-
-      # Check disk space after cleanup
-      - name: Check disk space after cleanup
-        run: df -h
-
-      # Cache dependencies (optional)
-      - uses: actions/cache@v3
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@v10
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          root-reserve-mb: 512
+          swap-size-mb: 1024
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+          remove-docker-images: 'true'
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build project
+        run: |
+          echo "Running your build here..."
