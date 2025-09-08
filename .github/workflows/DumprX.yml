@@ -44,7 +44,7 @@ jobs:
 
        - name: Clone Our Firmware Dumper
          run: |
-              git clone https://github.com/DumprX/DumprX.git DumprX
+              git clone https://github.com/Vuong-Android-Dumps/DumprX-Script.git DumprX
 
        - name: Setup Config envs
          working-directory: DumprX
