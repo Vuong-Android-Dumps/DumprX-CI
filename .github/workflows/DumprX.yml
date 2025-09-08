@@ -1,43 +1,67 @@
 name: DumprX
-
+ 
 on:
   workflow_dispatch:
-  pull_request:
+    inputs:
+      ROM_URL:
+        description: "Direct Link of the ROM/Firmware to Dump"
+        required: true
+      EXTRA_CMD:
+        description: "Any Extra Command to Run Before Dump"
+        required: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  # ROM
+  ROM_URL: ${{ github.event.inputs.ROM_URL }}
+
+  # Gitlab
+  PUSH_TO_GITLAB: true
+
+  # Extra Command
+  EXTRA_CMD: ${{ github.event.inputs.EXTRA_CMD }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@v10
-        with:
-          root-reserve-mb: 512
-          swap-size-mb: 1024
-          remove-dotnet: 'true'
-          remove-android: 'true'
-          remove-haskell: 'true'
-          remove-docker-images: 'true'
+       - name: Checkouts
+         uses: actions/checkout@v4
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+       - name: Clone Our Firmware Dumper
+         run: |
+              git clone https://github.com/DumprX/DumprX.git DumprX
 
-      - name: Build project
-        run: |
-          git clone --depth=1 --single-branch https://github.com/DumprX/DumprX.git ~/DumprX
-          mkdir -p ~/.ssh
-          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-          ssh-keyscan -H gitlab.com >> ~/.ssh/known_hosts
-          echo "${{ secrets.PRIV_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          git config --global user.name "VanVuong41429"
-          git config --global user.email "vanvuong41429@gmail.com"
-          git config --global color.ui auto
-          cd ~/DumprX
-          echo "${{ secrets.GITLAB_TOKEN }}" > .gitlab_token
-          echo "Van-Firmware-Dumps" > .gitlab_group
-          echo "@VanFirmwareDumps" > .tg_chat
-          echo "${{ secrets.TG_TOKEN }}" > .tg_token
-          echo "gitlab.com" > .gitlab_instance
-          bash setup.sh
-          export PUSH_TO_GITLAB="true"
-          ./dumper.sh "no"
+       - name: Setup Config envs
+         working-directory: DumprX
+         run: |
+              echo "${{ secrets.GITLAB_TOKEN }}" > .gitlab_token
+              echo "${{ secrets.GITLAB_GROUP }}" > .gitlab_group
+              echo "${{ secrets.BOT_TOKEN }}" > .tg_token
+              echo "${{ secrets.CHAT_ID }}" > .tg_chat
+              mkdir -p ~/.ssh
+              ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+              ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
+              echo "${{ secrets.PRIV_SSH_KEY }}" > ~/.ssh/id_rsa
+              chmod 600 ~/.ssh/id_rsa
+
+       - name: Setup DumprX's Environment
+         working-directory: DumprX
+         run: |
+              sudo bash setup.sh
+              git config --global user.name "Sushrut1101"
+              git config --global user.email "guptasushrut@gmail.com"
+
+       - name: Run the Extra Command
+         working-directory: DumprX
+         run: |
+              $EXTRA_CMD
+
+       - name: Start Dumping
+         working-directory: DumprX
+         run: |
+              ./dumper.sh "$ROM_URL"
