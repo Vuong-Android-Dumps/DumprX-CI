@@ -46,6 +46,7 @@ jobs:
               chmod 600 ~/.ssh/id_rsa
               echo "${{ secrets.GITLAB_TOKEN }}" > .gitlab_token
               echo "Van-Firmware-Dumps" > .gitlab_group
+              echo "gitlab.com" > .gitlab_instance
               echo "${{ secrets.TG_TOKEN }}" > .tg_token
               echo "@VanFirmwareDumps" > .tg_chat
 
