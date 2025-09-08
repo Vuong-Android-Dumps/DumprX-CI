@@ -38,23 +38,23 @@ jobs:
 
        - name: Setup Config envs
          working-directory: DumprX
-         run: |
-              echo "${{ secrets.GITLAB_TOKEN }}" > .gitlab_token
-              echo "Van-Firmware-Dumps" > .gitlab_group
-              echo "${{ secrets.TG_TOKEN }}" > .tg_token
-              echo "@VanFirmwareDumps" > .tg_chat
+         run: |  
               mkdir -p ~/.ssh
               ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
               ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
               echo "${{ secrets.PRIV_SSH_KEY }}" > ~/.ssh/id_rsa
               chmod 600 ~/.ssh/id_rsa
+              echo "${{ secrets.GITLAB_TOKEN }}" > .gitlab_token
+              echo "Van-Firmware-Dumps" > .gitlab_group
+              echo "${{ secrets.TG_TOKEN }}" > .tg_token
+              echo "@VanFirmwareDumps" > .tg_chat
 
        - name: Setup DumprX's Environment
          working-directory: DumprX
          run: |
               sudo bash setup.sh
-              git config --global user.name "Sushrut1101"
-              git config --global user.email "guptasushrut@gmail.com"
+              git config --global user.name "VanVuong41429"
+              git config --global user.email "vanvuong41429@gmail.com"
 
        - name: Run the Extra Command
          working-directory: DumprX
