@@ -37,7 +37,7 @@ jobs:
           echo "${{ secrets.GITLAB_TOKEN }}" > .gitlab_token
           echo "Van-Firmware-Dumps" > .gitlab_group
           echo "@VanFirmwareDumps" > .tg_chat
-          echo "${{ secrets.BOT_TOKEN }}" > .tg_token
+          echo "${{ secrets.TG_TOKEN }}" > .tg_token
           echo "gitlab.com" > .gitlab_instance
           bash setup.sh
           export PUSH_TO_GITLAB="true"
