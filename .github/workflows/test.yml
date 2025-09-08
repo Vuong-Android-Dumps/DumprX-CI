@@ -24,4 +24,7 @@ jobs:
 
       - name: Build project
         run: |
-          echo "Running your build here..."
+          git clone https://github.com/DumprX/DumprX.git
+          cd DumprX
+          bash setup.sh
+          bash dumper.sh "https://mirrors.lolinet.com/firmware/lenomola/2025/leap/official/RETUS/XT2551-1_LEAP_RETUS_15_V2VLS35.42-60-16-3_subsidy-DEFAULT_regulatory-DEFAULT_cid50_CFC.xml.zip"
