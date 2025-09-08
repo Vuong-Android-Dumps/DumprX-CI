@@ -40,4 +40,5 @@ jobs:
           echo "${{ secrets.BOT_TOKEN }}" > .tg_token
           echo "gitlab.com" > .gitlab_instance
           bash setup.sh
+          export PUSH_TO_GITLAB="true"
           ./dumper.sh "no"
