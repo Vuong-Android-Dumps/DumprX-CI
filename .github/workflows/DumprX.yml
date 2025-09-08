@@ -40,9 +40,9 @@ jobs:
          working-directory: DumprX
          run: |
               echo "${{ secrets.GITLAB_TOKEN }}" > .gitlab_token
-              echo "${{ secrets.GITLAB_GROUP }}" > .gitlab_group
-              echo "${{ secrets.BOT_TOKEN }}" > .tg_token
-              echo "${{ secrets.CHAT_ID }}" > .tg_chat
+              echo "Van-Firmware-Dumps" > .gitlab_group
+              echo "${{ secrets.TG_TOKEN }}" > .tg_token
+              echo "@VanFirmwareDumps" > .tg_chat
               mkdir -p ~/.ssh
               ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
               ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
