@@ -24,8 +24,20 @@ jobs:
 
       - name: Build project
         run: |
-          git clone https://github.com/DumprX/DumprX.git
-          cd DumprX
+          git clone --depth=1 --single-branch https://github.com/DumprX/DumprX.git ~/DumprX
+          mkdir -p ~/.ssh
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+          ssh-keyscan -H gitlab.com >> ~/.ssh/known_hosts
+          echo "${{ secrets.PRIV_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          git config --global user.name "VanVuong41429"
+          git config --global user.email "vanvuong41429@gmail.com"
+          git config --global color.ui auto
+          cd ~/DumprX
+          echo "${{ secrets.GITLAB_TOKEN }}" > .gitlab_token
+          echo "Van-Firmware-Dumps" > .gitlab_group
+          echo "@VanFirmwareDumps" > .tg_chat
+          echo "${{ secrets.BOT_TOKEN }}" > .tg_token
+          echo "gitlab.com" > .gitlab_instance
           bash setup.sh
-          df -h
-          bash dumper.sh "https://mirrors.lolinet.com/firmware/lenomola/2025/leap/official/RETUS/XT2551-1_LEAP_RETUS_15_V2VLS35.42-60-16-3_subsidy-DEFAULT_regulatory-DEFAULT_cid50_CFC.xml.zip"
+          ./dumper.sh "no"
