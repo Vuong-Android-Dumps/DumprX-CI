@@ -1,4 +1,4 @@
-name: DumprX
+name: DumprX New
  
 on:
   workflow_dispatch:
