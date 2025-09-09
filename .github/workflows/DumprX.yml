@@ -57,6 +57,13 @@ jobs:
          run: |
               git clone https://github.com/Vuong-Android-Dumps/DumprX-Script.git DumprX
 
+       - name: Setup large TMPDIR
+         run: |
+           mkdir -p $GITHUB_WORKSPACE/tmp
+           echo "TMPDIR=$GITHUB_WORKSPACE/tmp" >> $GITHUB_ENV
+           echo "Custom TMPDIR set to $GITHUB_WORKSPACE/tmp"
+           df -h $GITHUB_WORKSPACE/tmp
+
        - name: Setup Config envs
          working-directory: DumprX
          run: |  
