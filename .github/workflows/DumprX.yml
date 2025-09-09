@@ -1,4 +1,4 @@
-name: DumprX Workflow 2
+name: DumprX
  
 on:
   workflow_dispatch:
