@@ -1,4 +1,4 @@
-name: DumprX GitGud Workflow 2
+name: DumprX GitGud
  
 on:
   workflow_dispatch:
