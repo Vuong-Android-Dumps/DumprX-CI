@@ -75,19 +75,7 @@ jobs:
          run: |
               $EXTRA_CMD
 
-       - name: Redirect TMPDIR to bigger volume
-         run: |
-              mkdir -p /home/runner/work/tmp
-              export TMPDIR=/home/runner/work/tmp
-              echo "TMPDIR=/home/runner/work/tmp" >> $GITHUB_ENV
-
-       - name: Symlink /tmp to bigger disk
-         run: |
-              sudo rm -rf /tmp
-              sudo ln -s /home/runner/work/tmp /tmp
-
        - name: Start Dumping
          working-directory: ${{ github.workspace }}/DumprX
          run: |
-              export TMPDIR=/home/runner/work/tmp
               ./dumper.sh "$ROM_URL"
