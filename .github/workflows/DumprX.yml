@@ -32,23 +32,12 @@ jobs:
        - name: Maximize build space
          uses: easimon/maximize-build-space@v10
          with:
-           root-reserve-mb: 512
-           swap-size-mb: 1024
-           remove-dotnet: 'true'
-           remove-android: 'true'
-           remove-haskell: 'true'
-           remove-docker-images: 'true'
-
-       - name: Free disk space
-         run: |
-           sudo rm -rf /usr/share/dotnet
-           sudo rm -rf /opt/ghc
-           sudo rm -rf /usr/local/share/boost
-           sudo rm -rf /usr/lib/jvm
-           docker system prune -af || true
-           sudo apt-get clean
-           sudo rm -rf /var/lib/apt/lists/*
-           df -h
+              root-reserve-mb: 512
+              swap-size-mb: 1024
+              remove-dotnet: 'true'
+              remove-android: 'true'
+              remove-haskell: 'true'
+              remove-docker-images: 'true'
           
        - name: Checkouts
          uses: actions/checkout@v4
@@ -59,10 +48,10 @@ jobs:
 
        - name: Setup large TMPDIR
          run: |
-           mkdir -p $GITHUB_WORKSPACE/tmp
-           echo "TMPDIR=$GITHUB_WORKSPACE/tmp" >> $GITHUB_ENV
-           echo "Custom TMPDIR set to $GITHUB_WORKSPACE/tmp"
-           df -h $GITHUB_WORKSPACE/tmp
+              mkdir -p $GITHUB_WORKSPACE/tmp
+              echo "TMPDIR=$GITHUB_WORKSPACE/tmp" >> $GITHUB_ENV
+              echo "Custom TMPDIR set to $GITHUB_WORKSPACE/tmp"
+              df -h $GITHUB_WORKSPACE/tmp
 
        - name: Setup Config envs
          working-directory: DumprX
