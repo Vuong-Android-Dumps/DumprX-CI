@@ -38,6 +38,17 @@ jobs:
            remove-android: 'true'
            remove-haskell: 'true'
            remove-docker-images: 'true'
+
+       - name: Free disk space
+         run: |
+           sudo rm -rf /usr/share/dotnet
+           sudo rm -rf /opt/ghc
+           sudo rm -rf /usr/local/share/boost
+           sudo rm -rf /usr/lib/jvm
+           docker system prune -af || true
+           sudo apt-get clean
+           sudo rm -rf /var/lib/apt/lists/*
+           df -h
           
        - name: Checkouts
          uses: actions/checkout@v4
