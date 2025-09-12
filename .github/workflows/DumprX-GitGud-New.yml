@@ -75,8 +75,8 @@ jobs:
          run: |
               $EXTRA_CMD
               pip3 install git+https://github.com/martinetd/samloader.git
-              samloader -m SM-A075F -r INS -i 355761223469030 download -v A075FXXU1AYG6/A075FODM1AYG6/A075FXXU1AYG6/A075FXXU1AYG6 -O .
-              samloader -m SM-A075F -r INS -i 355761223469030 decrypt -v A075FXXU1AYG6/A075FODM1AYG6/A075FXXU1AYG6/A075FXXU1AYG6 -i $(ls *.enc*) -o firmware.zip
+              samloader -m SM-X406B -r INS -i 359592141034481 download -v X406BXXU1AYG7/X406BOXM1AYG7/X406BXXU1AYG7/X406BXXU1AYG7 -O .
+              samloader -m SM-X406B -r INS -i 359592141034481 decrypt -v X406BXXU1AYG7/X406BOXM1AYG7/X406BXXU1AYG7/X406BXXU1AYG7 -i $(ls *.enc*) -o firmware.zip
               rm $(ls *.enc*)
 
        - name: Start Dumping
