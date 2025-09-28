@@ -74,9 +74,6 @@ jobs:
          working-directory: ${{ github.workspace }}/DumprX
          run: |
               $EXTRA_CMD
-              curl -L -o "SM-S731B_1_20250916071511_on3ftabvmv_fac.zip.enc4" -J -H 'Authorization: FUS nonce="6OMmEo6FJTAW0DzktkAayzB9xV5Vzss+qOQSbDWUItg=", signature="zFNLJ21XYqVLm6TZ0sTTYCb4aeoR1/ClycOXikBatMM=", nc="", type="", realm="", newauth="1"' -H 'User-Agent: Kies2.0_FUS' "http://cloud-neofussvr.samsungmobile.com/NF_DownloadBinaryForMass.do?file=/neofus/910/SM-S731B_1_20250916071511_on3ftabvmv_fac.zip.enc4"
-              openssl enc -d -aes-128-ecb -in SM-S731B_1_20250916071511_on3ftabvmv_fac.zip.enc4 -out SM-S731B_1_20250916071511_on3ftabvmv_fac.zip -K 680ed4c98029f8c78bf8fe621ca910b9
-              rm SM-S731B_1_20250916071511_on3ftabvmv_fac.zip.enc4
 
        - name: Start Dumping
          working-directory: ${{ github.workspace }}/DumprX
