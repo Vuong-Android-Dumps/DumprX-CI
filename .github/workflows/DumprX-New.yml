@@ -78,8 +78,6 @@ jobs:
          working-directory: ${{ github.workspace }}/DumprX
          run: |
               $EXTRA_CMD
-              sudo apt install megatools
-              megatools dl 'https://mega.nz/file/FvpARDza#EueQv79eDm0S84rVe9g6PDjS5OiNY2z3mim-QDsFimo'
 
        - name: Start Dumping
          working-directory: ${{ github.workspace }}/DumprX
