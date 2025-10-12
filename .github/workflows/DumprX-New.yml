@@ -78,8 +78,6 @@ jobs:
          working-directory: ${{ github.workspace }}/DumprX
          run: |
               $EXTRA_CMD
-              pip install gdown
-              gdown 1WI52dOxMcuCx80SdNXmD1QjriHSeIdG3
 
        - name: Start Dumping
          working-directory: ${{ github.workspace }}/DumprX
