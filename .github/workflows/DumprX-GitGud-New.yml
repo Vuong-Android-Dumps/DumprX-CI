@@ -69,6 +69,8 @@ jobs:
               git config --global user.name "VanVuong41429"
               git config --global user.email "vanvuong41429@gmail.com"
               sudo bash setup.sh
+              sudo apt install erofs-utils -y
+              rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
 
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
