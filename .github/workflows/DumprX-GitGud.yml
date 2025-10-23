@@ -33,7 +33,7 @@ jobs:
          uses: rokibhasansagar/slimhub_actions@main
           
        - name: Checkouts
-         uses: actions/checkout@v4
+         uses: actions/checkout@v5
 
        - name: Clone Our Firmware Dumper
          run: |
