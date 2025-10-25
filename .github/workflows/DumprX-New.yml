@@ -79,6 +79,10 @@ jobs:
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
          run: |
+              echo 'export PATH="/root/.local/bin:$PATH"' >> ~/.bashrc
+              source ~/.bashrc
+              uv
+              uvx
               $EXTRA_CMD
 
        - name: Start Dumping
