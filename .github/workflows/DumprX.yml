@@ -65,8 +65,6 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
-              mv /root/.local/bin/uv /usr/bin/uv
-              mv /root/.local/bin/uvx /usr/bin/uvx
 
        - name: Run the Extra Command
          working-directory: DumprX
