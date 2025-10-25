@@ -74,8 +74,6 @@ jobs:
               git config --global lfs.dialtimeout 300
               sudo bash setup.sh
               sudo apt install erofs-utils -y
-              echo 'export PATH="/root/.local/bin:$PATH"' >> ~/.bashrc
-              source ~/.bashrc
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
 
        - name: Run the Extra Command
