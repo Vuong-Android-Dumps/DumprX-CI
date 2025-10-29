@@ -62,6 +62,7 @@ jobs:
               git config --global lfs.tlstimeout 300
               git config --global lfs.activitytimeout 300
               git config --global lfs.dialtimeout 300
+              curl -LsSf https://astral.sh/uv/install.sh | sh
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
