@@ -58,6 +58,7 @@ jobs:
          run: |
               git config --global user.name "VanVuong41429"
               git config --global user.email "vanvuong41429@gmail.com"
+              curl -LsSf https://astral.sh/uv/install.sh | sh
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
