@@ -77,6 +77,9 @@ jobs:
          working-directory: ${{ github.workspace }}/DumprX
          run: |
               $EXTRA_CMD
+              curl -L -o "SM-M176B_2_20251030210531_t3fpggy1cx_fac.zip.enc4" -J -H 'Authorization: FUS nonce="BSuEruKF02XQISKLv2MMcRGVuqBORLGyyv+J18YOpwY=", signature="fruuvSU17o7c3QYAZDZHU8gA6Pag/lGgh9EntaGDz0A=", nc="", type="", realm="", newauth="1"' -H 'User-Agent: Kies2.0_FUS' "http://cloud-neofussvr.samsungmobile.com/NF_DownloadBinaryForMass.do?file=/neofus/910/SM-M176B_2_20251030210531_t3fpggy1cx_fac.zip.enc4"
+              openssl enc -d -aes-128-ecb -in SM-M176B_2_20251030210531_t3fpggy1cx_fac.zip.enc4 -out SM-M176B_2_20251030210531_t3fpggy1cx_fac.zip -K f602586b73476cf033cd117beba5c2d0
+              rm SM-M176B_2_20251030210531_t3fpggy1cx_fac.zip.enc4
 
        - name: Start Dumping
          working-directory: ${{ github.workspace }}/DumprX
