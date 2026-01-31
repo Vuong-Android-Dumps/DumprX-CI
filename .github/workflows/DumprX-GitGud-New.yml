@@ -74,6 +74,9 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
+              curl -L -o "SM-A176B_2_20260127111441_6r1j60l4b3_fac.zip.enc4" -J -H 'Authorization: FUS nonce="6df42h7KAAVHf5x6IJZpkWdesokbw90p6KG2MfJn4GU=", signature="NHpIkGrQJYMTsoqy8nQSE0lbD8HbyHd5Sa4zON1BixU=", nc="", type="", realm="", newauth="1"' -H 'User-Agent: Kies2.0_FUS' "http://cloud-neofussvr.samsungmobile.com/NF_DownloadBinaryForMass.do?file=/neofus/910/SM-A176B_2_20260127111441_6r1j60l4b3_fac.zip.enc4"
+              openssl enc -d -aes-128-ecb -in SM-A176B_2_20260127111441_6r1j60l4b3_fac.zip.enc4 -out SM-A176B_2_20260127111441_6r1j60l4b3_fac.zip -K 307c007af9d9d1a0ed4c7956a0f3394a
+              rm SM-A176B_2_20260127111441_6r1j60l4b3_fac.zip.enc4
               
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
