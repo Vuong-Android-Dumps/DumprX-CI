@@ -74,9 +74,6 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
-              wget https://github.com/SecFathy/YandexDown/raw/refs/heads/main/YandexCLI.py
-              python3 YandexCLI.py -l https://disk.yandex.ru/d/b-24R0Cp0YwJTg -d .
-              rm YandexCLI.py
               
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
