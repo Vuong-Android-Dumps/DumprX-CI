@@ -74,6 +74,8 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
+              pip install gdown
+              gdown 1Peq18vmM6v05QBYAVKNhwAEhoBwN4x-4
               
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
