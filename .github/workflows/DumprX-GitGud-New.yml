@@ -42,7 +42,7 @@ jobs:
               remove-docker-images: 'true'
           
        - name: Checkouts
-         uses: actions/checkout@v5
+         uses: actions/checkout@v6
 
        - name: Clone Our Firmware Dumper
          working-directory: ${{ github.workspace }}
