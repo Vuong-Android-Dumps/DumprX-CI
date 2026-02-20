@@ -74,6 +74,10 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
+              pip3 install git+https://github.com/martinetd/samloader.git
+              samloader -m SM-E076B -r INS -i 355513830191683 download -v E076BXXU1AZA1/E076BODM1AZA1/E076BXXU1AZA1/E076BXXU1AZA1 -O .
+              samloader -m SM-E076B -r INS -i 355513830191683 decrypt -v E076BXXU1AZA1/E076BODM1AZA1/E076BXXU1AZA1/E076BXXU1AZA1 -i $(ls *.enc*) -o firmware.zip
+              rm $(ls *.enc*)
               
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
