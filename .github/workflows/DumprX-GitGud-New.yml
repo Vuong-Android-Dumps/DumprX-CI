@@ -74,10 +74,6 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
-              pip3 install git+https://github.com/martinetd/samloader.git
-              samloader -m SM-S948B -r XXV -i 353885922474660 download -v S948BXXU1AZAB/S948BOXM1AZAB/S948BXXU1AZAB/S948BXXU1AZAB -O .
-              samloader -m SM-S948B -r XXV -i 353885922474660 decrypt -v S948BXXU1AZAB/S948BOXM1AZAB/S948BXXU1AZAB/S948BXXU1AZAB -i $(ls *.enc*) -o firmware.zip
-              rm $(ls *.enc*)
               
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
