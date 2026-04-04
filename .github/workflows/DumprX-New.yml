@@ -76,6 +76,9 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
+              aria2c -x16 -s8 --console-log-level=warn --summary-interval=0 --check-certificate=false "https://rsddownload-secure.lenovo.com/TB520FU_ROW_OPEN_USER_Q00002.0_W_ZUI_17.5.10.096_ST_251127.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260404T120233Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIAS37TSJMJUUCJCY4T%2F20260404%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=604800&X-Amz-Signature=c362134e25929aaa98fb057c7fa455f3967c205602a07adc8f31c16cdc0a0556"
+              7z e -y -ofirmware TB520FU_ROW_OPEN_USER_Q00002.0_W_ZUI_17.5.10.096_ST_251127.zip && rm TB520FU_ROW_OPEN_USER_Q00002.0_W_ZUI_17.5.10.096_ST_251127.zip
+              cd firmware && rm super_1.img && mv super_2.img odm.img && mv super_3.img product.img && mv super_4.img system.img && mv super_5.img system_dlkm.img && mv super_6.img system_ext.img && mv super_7.img vendor.img && mv super_8.img vendor_dlkm.img && cd .. && zip -r firmware.zip firmware/ && rm -rf firmware
 
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
