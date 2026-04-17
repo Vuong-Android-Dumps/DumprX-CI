@@ -76,9 +76,6 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
-              aria2c -x16 -s8 --console-log-level=warn --summary-interval=0 --check-certificate=false "https://rsddownload-secure.lenovo.com/TB323FU_ROW_OPEN_USER_Q00020.0_A16_ZUI_18.0.10.039_ST_260303.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260417T072737Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIAS37TSJMJUUCJCY4T%2F20260417%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=604800&X-Amz-Signature=9aef529bab98d785c510b2a5ffc00b392a7c06ddd305538f2d5ed17e96298d1b"
-              7z e -y TB323FU_ROW_OPEN_USER_Q00020.0_A16_ZUI_18.0.10.039_ST_260303.zip -oTB323FU_ROW_OPEN_USER_Q00020.0_A16_ZUI_18.0.10.039_ST_260303 && rm TB323FU_ROW_OPEN_USER_Q00020.0_A16_ZUI_18.0.10.039_ST_260303.zip && cd TB323FU_ROW_OPEN_USER_Q00020.0_A16_ZUI_18.0.10.039_ST_260303
-              mv super_2.img odm.img && mv super_3.img product.img && mv super_4.img system.img && mv super_5.img system_dlkm.img && mv super_6.img system_ext.img && mv super_7.img vendor.img && mv super_8.img vendor_dlkm.img && rm super_1.img && cd .. && zip -r firmware.zip TB323FU_ROW_OPEN_USER_Q00020.0_A16_ZUI_18.0.10.039_ST_260303 && rm -rf TB323FU_ROW_OPEN_USER_Q00020.0_A16_ZUI_18.0.10.039_ST_260303
 
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
