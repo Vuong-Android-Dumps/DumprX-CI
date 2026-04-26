@@ -74,6 +74,9 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
+              pip3 install git+https://github.com/ananjaser1211/samloader.git
+              samloader -m SM-W9026 -r CHC -i 357673231067938 download -O .
+              mv SM-W9026*.zip firmware.zip
             
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
