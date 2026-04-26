@@ -76,6 +76,9 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
+              pip3 install git+https://github.com/ananjaser1211/samloader.git
+              samloader -m SM-A146P -r XXV -i 35297624 download -O .
+              ls
 
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
