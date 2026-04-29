@@ -74,6 +74,11 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
+              aria2c -x16 -s8 --console-log-level=warn --summary-interval=0 --check-certificate=false "https://ota-cdn.lenovo.com/firmware/202641311221923-2235.zip"
+              7z e -y 202641311221923-2235.zip -oA17 && rm 202641311221923-2235.zip
+              7z e -y A17/DPP_A17_ROW_OPEN_USER_Q00011.0_A16_ZUI_17.5.02.014_DEV_260325_qpst.7z -oA17 && rm A17/DPP_A17_ROW_OPEN_USER_Q00011.0_A16_ZUI_17.5.02.014_DEV_260325_qpst.7z
+              cd A17 && mv super_2.img odm.img && mv super_3.img product.img && mv super_4.img system.img && mv super_5.img system_dlkm.img && mv super_6.img system_ext.img && mv super_7.img vendor.img && mv super_8.img vendor_dlkm.img && rm super_1.img && cd ..
+              zip -r A17.zip A17/ && rm -rf A17
             
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
