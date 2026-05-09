@@ -83,4 +83,4 @@ jobs:
        - name: Start Dumping
          working-directory: ${{ github.workspace }}/DumprX
          run: |
-              ./dumper.sh "$ROM_URL"
+              ./dumper_gitgud.sh "$ROM_URL"
