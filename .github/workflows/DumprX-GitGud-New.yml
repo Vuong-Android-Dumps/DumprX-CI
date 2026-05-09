@@ -74,6 +74,8 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
+              git config --global http.version HTTP/1.1
+              git config --global lfs.concurrenttransfers 1
             
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
