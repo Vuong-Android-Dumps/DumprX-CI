@@ -70,12 +70,11 @@ jobs:
          run: |
               git config --global user.name "VanVuong41429"
               git config --global user.email "vanvuong41429@gmail.com"
+              git config --global lfs.concurrenttransfers 1
               curl -LsSf https://astral.sh/uv/install.sh | sh
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
-              git config --global http.version HTTP/1.1
-              git config --global lfs.concurrenttransfers 1
             
        - name: Run the Extra Command
          working-directory: ${{ github.workspace }}/DumprX
