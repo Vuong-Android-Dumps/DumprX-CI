@@ -33,7 +33,7 @@ jobs:
          uses: rokibhasansagar/slimhub_actions@main
           
        - name: Checkouts
-         uses: actions/checkout@v5
+         uses: actions/checkout@v6
 
        - name: Clone Our Firmware Dumper
          run: |
@@ -44,7 +44,7 @@ jobs:
          run: |  
               mkdir -p ~/.ssh
               ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-              ssh-keyscan -t rsa gitgud.io >> ~/.ssh/known_hosts
+              ssh-keyscan -t rsa ssh.gitgud.io >> ~/.ssh/known_hosts
               echo "${{ secrets.PRIV_SSH_KEY }}" > ~/.ssh/id_rsa
               chmod 600 ~/.ssh/id_rsa
               echo "${{ secrets.GITGUD_TOKEN }}" > .gitlab_token
@@ -71,4 +71,4 @@ jobs:
        - name: Start Dumping
          working-directory: DumprX
          run: |
-              ./dumper.sh "$ROM_URL"
+              ./dumper_gitgud.sh "$ROM_URL"
