@@ -27,6 +27,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 360
 
     steps:
        - name: Maximize build space
@@ -84,4 +85,5 @@ jobs:
        - name: Start Dumping
          working-directory: ${{ github.workspace }}/DumprX
          run: |
+              trap 'echo "SIGTERM received"; exit 1' TERM
               ./dumper_gitgud.sh "$ROM_URL"
