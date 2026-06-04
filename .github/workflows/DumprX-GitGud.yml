@@ -42,7 +42,7 @@ jobs:
 
        - name: Setup Config envs
          working-directory: DumprX
-         run: |  
+         run: |
               mkdir -p ~/.ssh
               ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
               ssh-keyscan -t rsa ssh.gitgud.io >> ~/.ssh/known_hosts
@@ -71,6 +71,6 @@ jobs:
 
        - name: Start Dumping
          working-directory: DumprX
-         run: |         
+         run: |
               trap 'echo "SIGTERM received"; exit 1' TERM
               ./dumper_gitgud.sh "$ROM_URL"
