@@ -27,6 +27,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 360
 
     steps:
        - name: Cleanup
@@ -70,5 +71,6 @@ jobs:
 
        - name: Start Dumping
          working-directory: DumprX
-         run: |
+         run: |         
+              trap 'echo "SIGTERM received"; exit 1' TERM
               ./dumper_gitgud.sh "$ROM_URL"
