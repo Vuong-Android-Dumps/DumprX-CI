@@ -63,9 +63,6 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
-              aria2c -x16 -s8 --console-log-level=warn --summary-interval=0 --check-certificate=false "https://rsddownload-secure.lenovo.com/TB390FU_ROW_OPEN_USER_Q00012.1_A16_ZUI_18.0.10.335_ST_260618.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260718T082201Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIAS37TSJMJUUCJCY4T%2F20260718%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=604800&X-Amz-Signature=637765c7542c89bd498e49193f465a7f2d8401d7eceed650c2b83339586f0514"
-              7z e -y TB390FU_ROW_OPEN_USER_Q00012.1_A16_ZUI_18.0.10.335_ST_260618.zip -oTB390FU && rm TB390FU_ROW_OPEN_USER_Q00012.1_A16_ZUI_18.0.10.335_ST_260618.zip && cd TB390FU
-              mv super_4.img system.img && mv super_5.img system_dlkm.img && mv super_7.img vendor.img && mv super_8.img vendor_dlkm.img && cd .. && zip -r TB390FU.zip TB390FU/ && rm -rf TB390FU
 
        - name: Run the Extra Command
          working-directory: DumprX
