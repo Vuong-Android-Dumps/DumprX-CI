@@ -66,9 +66,6 @@ jobs:
               sudo bash setup.sh
               sudo apt install erofs-utils -y
               rm ./utils/bin/fsck.erofs && cp /usr/bin/fsck.erofs ./utils/bin
-              aria2c -x16 -s8 --console-log-level=warn --summary-interval=0 --check-certificate=false "https://rsddownload-secure.lenovo.com/TB353FU_ROW_OPEN_USER_Q00005.0_A16_ZUI_18.0.12.150_ST_260622.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260718T165041Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIAS37TSJMJUUCJCY4T%2F20260718%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=604800&X-Amz-Signature=4650f665fa51e50d6a14771ad79dc1c1ccd926f1e4e9371b4f5d5fdb956a9760"
-              7z e -y TB353FU_ROW_OPEN_USER_Q00005.0_A16_ZUI_18.0.12.150_ST_260622.zip -oTB353FU && rm TB353FU_ROW_OPEN_USER_Q00005.0_A16_ZUI_18.0.12.150_ST_260622.zip && cd TB353FU
-              mv super_2.img odm.img && mv super_3.img product.img && mv super_4.img system.img && mv super_5.img system_dlkm.img && mv super_6.img system_ext.img && mv super_7.img vendor.img && cd .. && zip -r TB353FU.zip TB353FU/ && rm -rf TB353FU
 
        - name: Run the Extra Command
          working-directory: DumprX
