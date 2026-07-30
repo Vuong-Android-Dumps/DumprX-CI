@@ -20,6 +20,7 @@ env:
 
   # Gitlab
   PUSH_TO_GITLAB: true
+  DUMPRX_USE_SSH: true
 
   # Extra Command
   EXTRA_CMD: ${{ github.event.inputs.EXTRA_CMD }}
