@@ -61,6 +61,7 @@ jobs:
               git config --global user.email "vanvuong41429@gmail.com"
               curl -LsSf https://astral.sh/uv/install.sh | sh
               sudo bash setup.sh
+              rm utils/bin/fsck.erofs && aria2c "https://github.com/sekaiacg/erofs-tools/releases/download/v1.8.10-251217/erofs-utils-v1.8.10-gee46dd74-251217-Linux_x86_64.zip" && 7z x -y -outils/bin erofs-utils-v1.8.10-gee46dd74-251217-Linux_x86_64.zip && rm erofs-utils-v1.8.10-gee46dd74-251217-Linux_x86_64.zip
 
        - name: Run the Extra Command
          working-directory: DumprX
