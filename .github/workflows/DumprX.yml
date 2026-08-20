@@ -76,5 +76,5 @@ jobs:
          working-directory: DumprX
          run: |
               pip3 install git+https://github.com/ananjaser1211/samloader.git
-              samloader -m SM-E476B -r INS -i 350782000315878 download -O . >/dev/null
+              samloader -m SM-A276B -r XXV -i 354262690684640 download -O . >/dev/null
               ./dumper.sh "$ROM_URL"
