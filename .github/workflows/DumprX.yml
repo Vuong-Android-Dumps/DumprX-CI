@@ -75,6 +75,4 @@ jobs:
        - name: Start Dumping
          working-directory: DumprX
          run: |
-              pip3 install git+https://github.com/ananjaser1211/samloader.git
-              samloader -m SM-A276B -r XXV -i 354262690684640 download -O . >/dev/null
               ./dumper.sh "$ROM_URL"
