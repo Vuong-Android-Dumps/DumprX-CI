@@ -65,6 +65,8 @@ jobs:
               git config --global lfs.dialtimeout 300
               curl -LsSf https://astral.sh/uv/install.sh | sh
               sudo bash setup.sh
+              aria2c -x16 -s8 --console-log-level=warn --summary-interval=0 --check-certificate=false "https://iknow.service.hihonor.com/weknow/servlet/download/public?contextNo=W00066840" -o BSN-N33.zip
+              7z e -y BSN-N33.zip -oBSN && rm BSN-N33.zip && ls BSN && mv BSN/update_sd_base.zip . && rm -rf BSN
 
        - name: Run the Extra Command
          working-directory: DumprX
