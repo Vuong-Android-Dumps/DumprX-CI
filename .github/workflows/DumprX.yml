@@ -30,9 +30,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-       - name: Maximize GitHub Runner Space
-         uses: justinthelaw/maximize-github-runner-space@v0.12.4
-
        - name: Checkouts
          uses: actions/checkout@v6
 
@@ -65,6 +62,7 @@ jobs:
               git config --global lfs.dialtimeout 300
               curl -LsSf https://astral.sh/uv/install.sh | sh
               sudo bash setup.sh
+              df -h
 
        - name: Run the Extra Command
          working-directory: DumprX
