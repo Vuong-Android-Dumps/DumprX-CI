@@ -1,5 +1,5 @@
 name: DumprX GitGud New
- 
+
 on:
   workflow_dispatch:
     inputs:
@@ -30,28 +30,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-       - name: Maximize build space
-         uses: easimon/maximize-build-space@master
-         with:
-              root-reserve-mb: 512
-              temp-reserve-mb: 100
-              swap-size-mb: 1024
-              remove-dotnet: 'true'
-              remove-android: 'true'
-              remove-haskell: 'true'
-              remove-codeql: 'true'
-              remove-docker-images: 'true'
-          
+       - name: Maximize GitHub Runner Space
+         uses: justinthelaw/maximize-github-runner-space@v0.12.4
+
        - name: Checkouts
          uses: actions/checkout@v6
 
        - name: Clone Our Firmware Dumper
-         working-directory: ${{ github.workspace }}
          run: |
               git clone https://github.com/Vuong-Android-Dumps/DumprX-Script.git DumprX
 
        - name: Setup Config envs
-         working-directory: ${{ github.workspace }}/DumprX
+         working-directory: DumprX
          run: |
               mkdir -p ~/.ssh
               ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
@@ -65,19 +55,19 @@ jobs:
               echo "@VanFirmwareDumps" > .tg_chat
 
        - name: Setup DumprX's Environment
-         working-directory: ${{ github.workspace }}/DumprX
+         working-directory: DumprX
          run: |
               git config --global user.name "VanVuong41429"
               git config --global user.email "vanvuong41429@gmail.com"
               curl -LsSf https://astral.sh/uv/install.sh | sh
               sudo bash setup.sh
-            
+
        - name: Run the Extra Command
-         working-directory: ${{ github.workspace }}/DumprX
+         working-directory: DumprX
          run: |
               $EXTRA_CMD
 
        - name: Start Dumping
-         working-directory: ${{ github.workspace }}/DumprX
+         working-directory: DumprX
          run: |
               ./dumper_gitgud.sh "$ROM_URL"
