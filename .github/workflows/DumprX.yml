@@ -54,6 +54,7 @@ jobs:
        - name: Setup DumprX's Environment
          working-directory: DumprX
          run: |
+              df -h
               git config --global user.name "VanVuong41429"
               git config --global user.email "vanvuong41429@gmail.com"
               git config --global lfs.concurrenttransfers 1
@@ -62,7 +63,6 @@ jobs:
               git config --global lfs.dialtimeout 300
               curl -LsSf https://astral.sh/uv/install.sh | sh
               sudo bash setup.sh
-              df -h
 
        - name: Run the Extra Command
          working-directory: DumprX
